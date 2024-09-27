@@ -1,20 +1,24 @@
-import keras
-from keras import layers
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
 import numpy as np
 import os
-from keras.preprocessing import image
+from tensorflow.keras.preprocessing import image  
 
 latent_dim = 32
 height = 32
 width = 32
 channels = 3
 
-v = np.arange(900)
+
+print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
+
 
 # Generator
 generator_input = keras.Input(shape=(latent_dim,))
 
-print(generator_input.shape)
+
+# print(generator_input.shape)
 
 x = layers.Dense(128 * 16 * 16)(generator_input)
 x = layers.LeakyReLU()(x)
@@ -34,7 +38,7 @@ x = layers.LeakyReLU()(x)
 
 x = layers.Conv2D(channels, 7, activation='tanh', padding='same')(x)
 generator = keras.models.Model(generator_input, x)
-generator.summary()
+# generator.summary()
 
 # Discriminator
 discriminator_input = layers.Input(shape=(height, width, channels))
@@ -54,9 +58,9 @@ x = layers.Dropout(0.4)(x)
 x = layers.Dense(1, activation='sigmoid')(x)
 
 discriminator = keras.models.Model(discriminator_input, x)
-discriminator.summary()
+# discriminator.summary()
 
-discriminator_optimizer = keras.optimizers.legacy.RMSprop(
+discriminator_optimizer = keras.optimizers.RMSprop(
  learning_rate=0.0008,
  clipvalue=1.0,
  decay=1e-8)
@@ -71,7 +75,7 @@ gan_input = keras.Input(shape=(latent_dim,))
 gan_output = discriminator(generator(gan_input))
 gan = keras.models.Model(gan_input, gan_output)
 
-gan_optimizer = keras.optimizers.legacy.RMSprop(learning_rate=0.0004, clipvalue=1.0, decay=1e-8)
+gan_optimizer = keras.optimizers.RMSprop(learning_rate=0.0004, clipvalue=1.0, decay=1e-8)
 gan.compile(optimizer=gan_optimizer, loss='binary_crossentropy')
 
 # trinaing
@@ -85,7 +89,7 @@ x_train = x_train.reshape(
 
 iterations = 10000
 batch_size = 20
-save_dir = r'C:\Users\bibas\Downloads\GenAI\pytorch\12.0_GAN\main.py\save_dir'
+save_dir = r'.\12.0_GAN\save_dir'
 
 start = 0
 for step in range(iterations):
@@ -116,7 +120,7 @@ for step in range(iterations):
     if start > len(x_train) - batch_size:
         start = 0
     if step % 100 == 0:
-        gan.save_weights('gan.h5')
+        gan.save_weights(r'.\12.0_GAN\gan.h5')
 
         print('discriminator loss:', d_loss)
         print('adversarial loss:', a_loss)
@@ -125,7 +129,4 @@ for step in range(iterations):
         img.save(os.path.join(save_dir, 'generated_frog' + str(step) + '.png'))
         img = image.array_to_img(real_images[0] * 255., scale=False)
         img.save(os.path.join(save_dir, 'real_frog' + str(step) + '.png'))
-
-
-
 
