@@ -1,7 +1,7 @@
 # GAN  
 Generated Image  
-![image](https://github.com/user-attachments/assets/263bda10-151a-44ee-8228-486f9b0b51e4)
+![image](https://github.com/user-attachments/assets/f60d9728-e751-4733-82a7-526983266677)  
 
 Real Image  
-![image](https://github.com/user-attachments/assets/65118a2d-8cea-4255-863a-15e6e71a4961)
+![image](https://github.com/user-attachments/assets/c6654ecd-097a-4916-8dea-e14a2e675f5a)
 
