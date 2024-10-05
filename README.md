@@ -44,15 +44,15 @@ Install the required dependencies as mentioned in the Requirements section.
 
 The training process will output the discriminator and adversarial losses at regular intervals and save generated images to the specified directory.
 
-Training Process
+## Training Process
 The GAN is trained using the following steps:
 
-Data Preparation: Load CIFAR-10 dataset and extract frog images.
-Model Architecture: Build the generator and discriminator models using Keras.
-Training Loop:
-Generate random latent vectors.
-Use the generator to create fake images.
-Train the discriminator with real and fake images.
-Train the GAN by freezing the discriminator and optimizing the generator.
-The training will continue for a specified number of iterations, saving the model weights and generated images periodically.
+### Data Preparation: Load CIFAR-10 dataset and extract frog images.  
+### Model Architecture: Build the generator and discriminator models using Keras.  
+### Training Loop:  
+Generate random latent vectors.   
+Use the generator to create fake images.  
+Train the discriminator with real and fake images.  
+Train the GAN by freezing the discriminator and optimizing the generator.    
+The training will continue for a specified number of iterations, saving the model weights and generated images periodically.  
 
